@@ -7,8 +7,7 @@ public class Calculation {
 
     public static String scanner() {
         Scanner scanner = new Scanner(System.in);
-        String variable = scanner.next();
-        return variable;
+        return scanner.next();
     }
 
     /**
@@ -134,16 +133,16 @@ public class Calculation {
     private static int operation4(String input, Stack<Character> opStack, Stack<Integer> numStack) {
         if (input.isEmpty()) {
             return numStack.pop();
-        } else if (input.charAt(0) <= 9) {
-            numStack.push(input.codePointAt(0));
-            input = input.substring(1);
-            return operation4(input, opStack, numStack);
-        }  else if (input.charAt(0) != '('){
-            opStack.push(input.charAt(0));
+        } else if (input.charAt(0) <= '9' && input.charAt(0) >= '0') {
+            numStack.push(Integer.parseInt(input.substring(0,1)));
             input = input.substring(1);
             return operation4(input, opStack, numStack);
         } else if (input.charAt(0) == ')') {
             numStack.push(calculate(numStack.pop(), opStack.pop(), numStack.pop()));
+            input = input.substring(1);
+            return operation4(input, opStack, numStack);
+        } else if (input.charAt(0) != '(') {
+            opStack.push(input.charAt(0));
             input = input.substring(1);
             return operation4(input, opStack, numStack);
         } else {
